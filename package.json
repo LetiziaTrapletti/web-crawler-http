@@ -1,0 +1,15 @@
+{
+  "name": "web-crawler-http",
+  "version": "1.0.0",
+  "description": "From Learn HTTP course, on boot.dev https://www.youtube.com/watch?v=2JYT5f2isg4&amp;t=8535s",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
