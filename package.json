@@ -4,7 +4,7 @@
   "description": "From Learn HTTP course, on boot.dev https://www.youtube.com/watch?v=2JYT5f2isg4&amp;t=8535s",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "node --no-warnings main.js",
     "test": "jest"
   },
   "author": "",
