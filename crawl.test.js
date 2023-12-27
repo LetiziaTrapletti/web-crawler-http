@@ -1,6 +1,6 @@
 //jest recognizes test files from the .test.js so adopt this naming convention
 
-const {normalizeURL} = require('./crawl.js')
+const {normalizeURL, getURLsFromHTML} = require('./crawl.js') //this line imports functions from the crawl.js file
 const {test, expect} = require('@jest/globals')
 
 test('normalizeURL strip protocol', () => {
@@ -30,3 +30,72 @@ test('normalizeURL strip http', () => {
     const expected = 'blog.boot.dev/path'
     expect(actual).toEqual(expected)
 })
+
+test('getURLsFromHTML absolute', () => {
+    const inputHTMLBody = `
+<html>
+    <body>
+        <a href="https://blog.boot.dev/">
+            Boot.dev Blog
+        </a>
+    </body>
+</html>
+`
+    const inputsBaseURL = "https://blog.boot.dev"
+    const actual = getURLsFromHTML(inputHTMLBody, inputsBaseURL)
+    const expected = ["https://blog.boot.dev/"]
+    expect(actual).toEqual(expected)
+})
+
+test('getURLsFromHTML relative', () => {
+    const inputHTMLBody = `
+<html>
+    <body>
+        <a href="/path/">
+            Boot.dev Blog
+        </a>
+    </body>
+</html>
+`
+    const inputsBaseURL = "https://blog.boot.dev"
+    const actual = getURLsFromHTML(inputHTMLBody, inputsBaseURL)
+    const expected = ["https://blog.boot.dev/path/"]
+    expect(actual).toEqual(expected)
+})
+
+test('getURLsFromHTML both', () => {
+    const inputHTMLBody = `
+<html>
+    <body>
+        <a href="https://blog.boot.dev/path1/">
+            Boot.dev Blog Path One
+        </a>
+        <a href="/path2/">
+            Boot.dev Blog Path Two
+        </a>
+    </body>
+</html>
+`
+    const inputsBaseURL = "https://blog.boot.dev"
+    const actual = getURLsFromHTML(inputHTMLBody, inputsBaseURL)
+    const expected = ["https://blog.boot.dev/path1/","https://blog.boot.dev/path2/"]
+    expect(actual).toEqual(expected)
+})
+
+test('getURLsFromHTML invalid', () => {
+    const inputHTMLBody = `
+<html>
+    <body>
+        <a href="invalid">
+            Invalid URL
+        </a>
+    </body>
+</html>
+`
+    const inputsBaseURL = "https://blog.boot.dev"
+    const actual = getURLsFromHTML(inputHTMLBody, inputsBaseURL)
+    const expected = []
+    expect(actual).toEqual(expected)
+})
+
+
